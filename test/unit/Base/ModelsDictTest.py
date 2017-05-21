@@ -40,9 +40,9 @@ class ModelsDictTest:
             assert expected_string == actual_string
 
         def test_keys(self):
-            assert self.models_dict.keys() == []
+            assert list(self.models_dict.keys()) == []
             self.models_dict['test'] = {'model': 'test content'}
-            assert self.models_dict.keys() == ['test']
+            assert list(self.models_dict.keys()) == ['test']
 
         def test_add_with_no_master(self):
             with pytest.raises(Exception):

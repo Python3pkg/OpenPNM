@@ -51,9 +51,9 @@ class GenericPhysicsTest:
     def test_instantiation_with_no_geom_or_phase(self):
         phys = OpenPNM.Physics.GenericPhysics(network=self.net)
         mgr = phys.workspace
-        assert phys in mgr.values()
+        assert phys in list(mgr.values())
         phase = phys._phases[0]
-        assert phase in mgr.values()
+        assert phase in list(mgr.values())
         assert phys.name in phase.physics()
         assert phase.name in phys.phases()
 
@@ -86,7 +86,7 @@ class GenericPhysicsTest:
         assert phys.phases()[0] == phase2.name
         assert phase2.physics()[0] == phys.name
         a = phase2.check_physics_health()
-        assert sum([len(value) for value in a.values()]) == 0
+        assert sum([len(value) for value in list(a.values())]) == 0
         a = phase1.check_physics_health()
         assert len(a['undefined_pores']) > 0
 

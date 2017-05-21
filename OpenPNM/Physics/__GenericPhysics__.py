@@ -82,7 +82,7 @@ class GenericPhysics(OpenPNM.Base.Core):
         # Convert self.name into 'all'
         if key.split('.')[-1] == self.name:
             key = element + '.all'
-        if key in self.keys():  # Look for data on self...
+        if key in list(self.keys()):  # Look for data on self...
             return super(GenericPhysics, self).__getitem__(key)
         else:  # ...Then check Network
             return self._phases[0][key][self._phases[0][element + '.' + self.name]]
@@ -131,7 +131,7 @@ class GenericPhysics(OpenPNM.Base.Core):
         if mode == 'add':
             # Check if any constant values exist on the object
             for item in self.props():
-                if (item not in self.models.keys()) or \
+                if (item not in list(self.models.keys())) or \
                    (self.models[item]['regen_mode'] == 'constant'):
                     raise Exception('Constant properties found on object, ' +
                                     'cannot increase size')

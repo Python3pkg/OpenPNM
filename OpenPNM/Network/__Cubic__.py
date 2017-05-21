@@ -166,9 +166,9 @@ class Cubic(GenericNetwork):
         x, y, z = self['pore.coords'].T
         labels = ['internal', 'front', 'back', 'left', 'right', 'bottom', 'top']
         for label in labels:
-            if 'pore.'+label not in self.keys():
+            if 'pore.'+label not in list(self.keys()):
                 self['pore.'+label] = False
-        if 'pore.boundary' in self.keys():
+        if 'pore.boundary' in list(self.keys()):
             internal = -self['pore.boundary']
         else:
             internal = self['pore.all']

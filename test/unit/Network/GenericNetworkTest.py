@@ -191,7 +191,7 @@ class GenericNetworkTest:
                      'bidirectional_throats',
                      'headless_throats',
                      'looped_throats'])
-        assert items == a.keys()
+        assert items == list(a.keys())
         assert sp.size(list(a.values())) == 0
 
     def test_check_network_isolated_pores(self):

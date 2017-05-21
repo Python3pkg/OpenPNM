@@ -262,9 +262,9 @@ def clone_pores(network, pores, apply_label=['clone'], mode='parents'):
     clones = _sp.arange(Np, Npnew)
     # Add clone labels to network
     for item in apply_label:
-        if 'pore.' + item not in network.keys():
+        if 'pore.' + item not in list(network.keys()):
             network['pore.'+item] = False
-        if 'throat.' + item not in network.keys():
+        if 'throat.' + item not in list(network.keys()):
             network['throat.'+item] = False
     # Add connections between parents and clones
     if mode == 'parents':
@@ -393,7 +393,7 @@ def stitch(network, donor, P_network, P_donor, method='nearest',
 
     # Remove donor from Workspace, if present
     # This check allows for the reuse of a donor Network multiple times
-    if donor in _mgr.values():
+    if donor in list(_mgr.values()):
         _mgr.purge_object(donor)
 
 
@@ -884,7 +884,7 @@ def find_surface_pores(network, markers=None, label='surface'):
         neighbors = indptr[indices[k]:indices[k+1]]
         inds = _sp.where(neighbors < network.Np)
         neighbors = neighbors[inds]
-        if 'pore.'+label not in network.keys():
+        if 'pore.'+label not in list(network.keys()):
             network['pore.'+label] = False
         network['pore.'+label][neighbors] = True
 

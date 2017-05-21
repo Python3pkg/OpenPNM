@@ -83,7 +83,7 @@ def test_stitch():
               method='nearest')
     assert pn.Np == 2*pn2.Np  # Ensure number of pores doubled
     assert pn.Nt == (2*pn2.Nt + Nx*Ny)  # Ensure correct number of new throats
-    assert pn2 not in mgr.values()  # Donor Network is removed from Workspace
+    assert pn2 not in list(mgr.values())  # Donor Network is removed from Workspace
     # Reuse the donor Network in another stitch
     pn2['pore.coords'][:, 2] -= 2*Nz
     pn.stitch(donor=pn2,

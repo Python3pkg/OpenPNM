@@ -20,8 +20,8 @@ def test_IP_old_approach():
          'throat.order', 'throat.sorted']
     assert sorted(list(IP_1.keys())) == a
     IP_1.return_results()
-    assert 'throat.invasion_sequence' in water.keys()
-    assert 'pore.invasion_sequence' in water.keys()
+    assert 'throat.invasion_sequence' in list(water.keys())
+    assert 'pore.invasion_sequence' in list(water.keys())
     mgr.clear()
 
 
@@ -41,8 +41,8 @@ def test_IP_new_approach():
          'throat.order', 'throat.sorted']
     assert sorted(list(IP_1.keys())) == a
     IP_1.return_results()
-    assert 'throat.invasion_sequence' in water.keys()
-    assert 'pore.invasion_sequence' in water.keys()
+    assert 'throat.invasion_sequence' in list(water.keys())
+    assert 'pore.invasion_sequence' in list(water.keys())
     mgr.clear()
 
 

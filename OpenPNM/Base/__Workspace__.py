@@ -41,7 +41,7 @@ class Workspace(dict):
                                                         net.__class__.__name__))
             for geom in net._geometries:
                 str = '++ {0:<12} {1:<20} ({2})'
-                if geom in self.values():
+                if geom in list(self.values()):
                     lines.append(str.format('Geometry: ',
                                             geom.name,
                                             geom.__class__.__name__))
@@ -68,7 +68,7 @@ class Workspace(dict):
                                                 phase.__class__.__name__))
                 for phys in phase._physics:
                     str = '++ {0:<12} {1:<20} ({2})'
-                    if phys in self.values():
+                    if phys in list(self.values()):
                         lines.append(str.format('Physics: ',
                                                 phys.name,
                                                 phys.__class__.__name__))
@@ -289,17 +289,17 @@ class Workspace(dict):
         filename = filename.rsplit('.net', 1)[0]
         net = _pickle.load(open(filename + '.net', 'rb'))
         temp_dict = {}  # Store objects temporarily to ensure no exceptions
-        if net.name not in self.keys():
+        if net.name not in list(self.keys()):
             temp_dict[net.name] = net
         else:
             raise Exception('A simulation with that name is already present')
         for item in net._phases + net._physics + net._geometries:
-            if item.name not in self.keys():
+            if item.name not in list(self.keys()):
                 temp_dict[item.name] = item
             else:
                 raise Exception('An object with that name is already present')
         # If no exceptions, then transfer objects to self
-        for item in temp_dict.values():
+        for item in list(temp_dict.values()):
             item.workspace = self
 
     def save_workspace(self, filename=''):
@@ -370,7 +370,7 @@ class Workspace(dict):
             self.clear()
 
         self = _pickle.load(open(filename+'.pnm', 'rb'))
-        for item in self._comments.values():
+        for item in list(self._comments.values()):
             if 'Using OpenPNM' in item:
                 version = item.lstrip('Using OpenPNM ')
                 if version < OpenPNM.__version__:

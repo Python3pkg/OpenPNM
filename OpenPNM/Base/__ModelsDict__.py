@@ -40,12 +40,12 @@ class ModelWrapper(dict):
             vals = list(inspect.getargspec(self['model']).defaults)
             keys = inspect.getargspec(self['model']).args[-len(vals):]
             # Put defaults into the dict
-            defs.update(zip(keys, vals))
+            defs.update(list(zip(keys, vals)))
         keys = list(self.keys())
         keys.sort()
         for item in keys:
             if item not in self.COMPONENTS:
-                if item not in defs.keys():
+                if item not in list(defs.keys()):
                     defs[item] = '---'
                 lines.append('{0:<20s} {1} / ({2})'.format(item,
                                                            self[item],
@@ -156,7 +156,7 @@ class ModelsDict(OrderedDict):
                                                    'Property Name',
                                                    'Regeneration Mode'))
         lines.append(horizontal_rule)
-        for i, item in enumerate(self.keys()):
+        for i, item in enumerate(list(self.keys())):
             str = '{0:<5d} {1:<30s} {2:<20s}'
             lines.append(str.format(i + 1, item, self[item]['regen_mode']))
         lines.append(horizontal_rule)
@@ -296,7 +296,7 @@ class ModelsDict(OrderedDict):
             vals = list(inspect.getargspec(model).defaults)
             keys = inspect.getargspec(model).args[-len(vals):]
             # Put defaults into the dict
-            f.update(zip(keys, vals))
+            f.update(list(zip(keys, vals)))
         # Update dictionary with supplied arguments, overwriting defaults
         f.update(**kwargs)
         # Add model to ModelsDict
@@ -352,7 +352,7 @@ class ModelsDict(OrderedDict):
         for item in new_order:
             order.remove(item)
         # Add models back to list in new order
-        inv_dict = {v: k for k, v in new_order.items()}
+        inv_dict = {v: k for k, v in list(new_order.items())}
         for item in sorted(inv_dict):
             order.insert(item, inv_dict[item])
         # Now rebuild models OrderedDict in new order

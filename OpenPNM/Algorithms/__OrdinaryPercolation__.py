@@ -31,7 +31,7 @@ class OrdinaryPercolation(GenericAlgorithm):
 
     def __init__(self, network, name=None, **kwargs):
         super().__init__(network=network, name=name)
-        if len(kwargs.keys()) > 0:
+        if len(list(kwargs.keys())) > 0:
             self.setup(**kwargs)
 
     def setup(self,
@@ -131,10 +131,10 @@ class OrdinaryPercolation(GenericAlgorithm):
             A list of specific pressure point(s) to apply.
 
         """
-        if 'inlets' in kwargs.keys():
+        if 'inlets' in list(kwargs.keys()):
             logger.info('Inlets recieved, passing to set_inlets')
             self.set_inlets(pores=kwargs['inlets'])
-        if 'outlets' in kwargs.keys():
+        if 'outlets' in list(kwargs.keys()):
             logger.info('Outlets recieved, passing to set_outlets')
             self.set_outlets(pores=kwargs['outlets'])
         self._AL = access_limited

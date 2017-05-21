@@ -77,4 +77,4 @@ purge_object = _workspace.purge_object
 
 
 def view():
-    print(_workspace.__str__())
+    print((_workspace.__str__()))

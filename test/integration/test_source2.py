@@ -1,6 +1,6 @@
 import OpenPNM
 import scipy as sp
-print('-----> Using OpenPNM version: '+OpenPNM.__version__)
+print(('-----> Using OpenPNM version: '+OpenPNM.__version__))
 pn = OpenPNM.Network.Cubic(shape=[10,10,40],spacing=0.0001)
 pn.add_boundaries()
 
@@ -68,17 +68,17 @@ phys_air.regenerate('pore.blah1')
 phys_air.regenerate('pore.blah2')
 #------------------------------------------------------------------------------------------------
 print('--------------------------------------------------------------')
-print('steps: ',alg._steps)
-print('tol_reached: ',alg._tol_reached)
+print(('steps: ',alg._steps))
+print(('tol_reached: ',alg._tol_reached))
 print('--------------------------------------------------------------')
-print('reaction from the physics for pores [500:700]:',\
-        sp.sum(0.5e-13*air['pore.mole_fraction'][sp.r_[500:700]]**1.5+2.5e-14))
-print('rate from the physics for pores [500:700]:',\
-        alg.rate(sp.r_[500:700])[0])
+print(('reaction from the physics for pores [500:700]:',\
+        sp.sum(0.5e-13*air['pore.mole_fraction'][sp.r_[500:700]]**1.5+2.5e-14)))
+print(('rate from the physics for pores [500:700]:',\
+        alg.rate(sp.r_[500:700])[0]))
 print('--------------------------------------------------------------')
-print('reaction from the physics for pores [800:900]:',\
-        sp.sum(0.16e-14*sp.log(4*air['pore.mole_fraction'][sp.r_[800:900]]**(-1.4)+0.133)/sp.log(10)-5.1e-14))
-print('rate from the physics for pores [800:900]:',\
-        alg.rate(sp.r_[800:900])[0])
+print(('reaction from the physics for pores [800:900]:',\
+        sp.sum(0.16e-14*sp.log(4*air['pore.mole_fraction'][sp.r_[800:900]]**(-1.4)+0.133)/sp.log(10)-5.1e-14)))
+print(('rate from the physics for pores [800:900]:',\
+        alg.rate(sp.r_[800:900])[0]))
 
 

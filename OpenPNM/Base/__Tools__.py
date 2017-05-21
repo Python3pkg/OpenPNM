@@ -43,7 +43,7 @@ class ObjectContainer(dict):
         if self == {}:
             return []
         if name is None:
-            objs = [item for item in self.keys()]
+            objs = [item for item in list(self.keys())]
             if self[objs[0]]._isa('network'):
                 objs = [self[objs[0]]]
         else:
@@ -131,7 +131,7 @@ class SetLocations():
 
         # Set locations in Network dictionary
         inds_orig = net._get_indices(element=element, labels=obj.name)
-        if element+'.'+obj.name not in net.keys():
+        if element+'.'+obj.name not in list(net.keys()):
             net[element+'.'+obj.name] = False
         net[element+'.'+obj.name][locations] = True
         inds_new = net._get_indices(element=element, labels=obj.name)
@@ -139,7 +139,7 @@ class SetLocations():
         # Set locations in Phase dictionary (if obj is a Physics object)
         if obj._isa('Physics'):
             phase = obj.parent_phase
-            if element+'.'+obj.name not in phase.keys():
+            if element+'.'+obj.name not in list(phase.keys()):
                 phase[element+'.'+obj.name] = False
             phase[element+'.'+obj.name][locations] = True
 

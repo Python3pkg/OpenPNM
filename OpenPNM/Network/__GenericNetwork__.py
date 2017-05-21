@@ -50,7 +50,7 @@ class GenericNetwork(Core):
                     value[:, 0][mask] = v2
                     value[:, 1][mask] = v1
         for geom in self._geometries:
-            if (prop in geom.keys()) and ('all' not in prop.split('.')):
+            if (prop in list(geom.keys())) and ('all' not in prop.split('.')):
                 logger.error(prop + ' is already defined in at least one associated \
                              Geometry object')
                 return
@@ -60,7 +60,7 @@ class GenericNetwork(Core):
         if key.split('.')[-1] == self.name:
             element = key.split('.')[0]
             return self[element+'.all']
-        if key not in self.keys():
+        if key not in list(self.keys()):
             logger.debug(key + ' not on Network, constructing data from Geometries')
             return self._interleave_data(key, self.geometries())
         else:

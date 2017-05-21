@@ -1,6 +1,6 @@
 import OpenPNM
 import scipy as sp
-print('-----> Using OpenPNM version: '+OpenPNM.__version__)
+print(('-----> Using OpenPNM version: '+OpenPNM.__version__))
 pn = OpenPNM.Network.Cubic(name='net3',shape=[10,10,40],spacing=0.0001)
 pn.add_boundaries()
 
@@ -74,23 +74,23 @@ alg.setup()
 alg.solve(iterative_solver='cg',tol=1e-20)
 alg.return_results()
 print('--------------------------------------------------------------')
-print('steps: ',alg._steps)
-print('tol_reached: ',alg._tol_reached)
+print(('steps: ',alg._steps))
+print(('tol_reached: ',alg._tol_reached))
 print('--------------------------------------------------------------')
-print('reaction from the physics for pores [500:700]:',\
-        sp.sum(0.5e-13*air['pore.mole_fraction'][sp.r_[500:700]]**1.5+2.5e-14))
-print('rate from the physics for pores [500:700]:',\
-        alg.rate(sp.r_[500:700])[0])
+print(('reaction from the physics for pores [500:700]:',\
+        sp.sum(0.5e-13*air['pore.mole_fraction'][sp.r_[500:700]]**1.5+2.5e-14)))
+print(('rate from the physics for pores [500:700]:',\
+        alg.rate(sp.r_[500:700])[0]))
 print('--------------------------------------------------------------')
-print('reaction from the physics for pores [800:900]:',\
+print(('reaction from the physics for pores [800:900]:',\
         sp.sum(0.16e-14*sp.log(4*air['pore.mole_fraction'][sp.r_[800:1300]]**(-1.4)+0.133)/sp.log(10)-5.1e-14)\
-        +sp.sum(0.8e-11*sp.exp(0.5*air['pore.mole_fraction'][sp.r_[800:1300]]**2-0.34)+2e-14))
-print('rate from the physics for pores [800:900]:',\
-        alg.rate(sp.r_[800:1300])[0])
+        +sp.sum(0.8e-11*sp.exp(0.5*air['pore.mole_fraction'][sp.r_[800:1300]]**2-0.34)+2e-14)))
+print(('rate from the physics for pores [800:900]:',\
+        alg.rate(sp.r_[800:1300])[0]))
 
 print('--------------------------------------------------------------')
-print('reaction from the physics for pores [300:400]:',\
-        sp.sum(0.5e-13*air['pore.mole_fraction'][sp.r_[300:400]]**1.5+2.5e-14))
-print('rate from the physics for pores [300:400]:',\
-        alg.rate(sp.r_[300:400])[0])
+print(('reaction from the physics for pores [300:400]:',\
+        sp.sum(0.5e-13*air['pore.mole_fraction'][sp.r_[300:400]]**1.5+2.5e-14)))
+print(('rate from the physics for pores [300:400]:',\
+        alg.rate(sp.r_[300:400])[0]))
 print('--------------------------------------------------------------')

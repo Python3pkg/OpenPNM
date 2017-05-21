@@ -190,21 +190,21 @@ class Delaunay(GenericNetwork):
         for i, polygon in enumerate(self._vor.point_region[0:Np]):
             if -1 not in self._vor.regions[polygon]:
                 all_vert_index[i] = \
-                    dict(zip(self._vor.regions[polygon],
-                             self._vor.vertices[self._vor.regions[polygon]]))
+                    dict(list(zip(self._vor.regions[polygon],
+                             self._vor.vertices[self._vor.regions[polygon]])))
 
         # Add throat vertices by looking up vor.ridge_dict
         throat_verts = sp.ndarray(len(self['throat.conns']), dtype=object)
         for i, (p1, p2) in enumerate(self['throat.conns']):
             try:
                 throat_verts[i] = \
-                    dict(zip(self._vor.ridge_dict[(p1, p2)],
-                             self._vor.vertices[self._vor.ridge_dict[(p1, p2)]]))
+                    dict(list(zip(self._vor.ridge_dict[(p1, p2)],
+                             self._vor.vertices[self._vor.ridge_dict[(p1, p2)]])))
             except KeyError:
                 try:
                     throat_verts[i] = \
-                        dict(zip(self._vor.ridge_dict[(p2, p1)],
-                                 self._vor.vertices[self._vor.ridge_dict[(p2, p1)]]))
+                        dict(list(zip(self._vor.ridge_dict[(p2, p1)],
+                                 self._vor.vertices[self._vor.ridge_dict[(p2, p1)]])))
                 except KeyError:
                     logger.error('Throat Pair Not Found in Voronoi Ridge Dictionary')
 
@@ -259,14 +259,14 @@ class Delaunay(GenericNetwork):
         # ridge_dict contains a dictionary where the key is a set of 2 neighbouring
         # pores and the value is the vertex indices that form the throat or ridge
         # between them
-        for p, v in self._vor.ridge_dict.items():
+        for p, v in list(self._vor.ridge_dict.items()):
             # If the vertex with index -1 is contained in list then the ridge is
             # unbounded - ignore these
             if np.all(np.asarray(v) >= 0):
                 # Boundary throats will be those connecting one pore inside the
                 # original set and one out
-                if (p[0] in range(Np) and p[1] not in range(Np)) or \
-                        (p[0] not in range(Np) and p[1] in range(Np)):
+                if (p[0] in range(Np) and p[1] not in list(range(Np))) or \
+                        (p[0] not in list(range(Np)) and p[1] in range(Np)):
                     # The dictionary key is not in numerical order so find the pore
                     # index inside
                     if p[0] in range(Np):
@@ -291,8 +291,8 @@ class Delaunay(GenericNetwork):
                         pass
                     bound_coords.append(new_pore_coord)
                     bound_conns.append(np.array([my_pore, new_throat_count + Np]))
-                    bound_vert_index.append(dict(zip(v, throat_verts)))
-                    throat_vert_index.append(dict(zip(v, throat_verts)))
+                    bound_vert_index.append(dict(list(zip(v, throat_verts))))
+                    throat_vert_index.append(dict(list(zip(v, throat_verts))))
                     new_throat_count += 1
 
         # Add new pores and connections

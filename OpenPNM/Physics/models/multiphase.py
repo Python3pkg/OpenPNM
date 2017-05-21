@@ -159,7 +159,7 @@ def late_pore_filling(physics, phase, network,
     """
 
     # If pc_star has not yet been calculated, do so
-    if pc_star not in physics.keys():
+    if pc_star not in list(physics.keys()):
         pores = phase.Ps
         prop = phase[throat_entry_pressure]
         neighborTs = network.find_neighbor_throats(pores, flatten=False)

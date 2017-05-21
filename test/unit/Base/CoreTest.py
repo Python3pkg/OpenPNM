@@ -127,7 +127,7 @@ class CoreTest:
     def test_props_hidden_keys(self):
         self.net['pore._blah'] = 1.0
         assert 'pore._blah' not in self.net.__str__()
-        assert 'pore._blah' in self.net.keys()
+        assert 'pore._blah' in list(self.net.keys())
 
     def test_labels(self):
         a = self.net.labels()
@@ -217,7 +217,7 @@ class CoreTest:
     def test_labels_hidden_key(self):
         self.net['pore._foo'] = True
         assert 'pore._foo' not in self.net.__str__()
-        assert 'pore._foo' in self.net.keys()
+        assert 'pore._foo' in list(self.net.keys())
 
     def test_pores(self):
         a = self.net.pores()
@@ -415,7 +415,7 @@ class CoreTest:
 
     def test_setitem_wrong_length(self):
         self.geo['pore.test'] = sp.ones((self.geo.Np+1))
-        assert 'pore.test' not in self.geo.keys()
+        assert 'pore.test' not in list(self.geo.keys())
 
     def test_setitem_replace_all(self):
         array_len = sp.size(self.geo['pore.all'])
@@ -454,11 +454,11 @@ class CoreTest:
         assert sp.all(a == b)
 
     def test_object_rename(self):
-        assert self.geo1 in mgr.values()
+        assert self.geo1 in list(mgr.values())
         old_name = self.geo1.name
         self.geo1.name = 'new_name'
         assert self.geo1.name == 'new_name'
-        assert self.geo1 in mgr.values()
+        assert self.geo1 in list(mgr.values())
         self.geo1.name = old_name
 
     def test_object_duplicate_name(self):
@@ -901,7 +901,7 @@ class CoreTest:
     def test_check_data_health(self):
         a = self.net.check_data_health()
         assert a.health
-        for item in a.values():
+        for item in list(a.values()):
             assert item == []
         self.net['pore.data_test'] = sp.nan
         a = self.net.check_data_health()

@@ -64,7 +64,7 @@ class InvasionPercolation(GenericAlgorithm):
         pores : array_like
             The list of inlet pores from which the Phase can enter the Network
         """
-        if 'inlets' in kwargs.keys():
+        if 'inlets' in list(kwargs.keys()):
             pores = kwargs['inlets']
         self['pore.invaded'][pores] = 0
 
@@ -83,7 +83,7 @@ class InvasionPercolation(GenericAlgorithm):
             The number of throats to invaded during this step
 
         """
-        if 'throat.entry_pressure' not in self.keys():
+        if 'throat.entry_pressure' not in list(self.keys()):
             self.setup(**kwargs)
         if sp.all(self['pore.invaded'] == -1):
             self.set_inlets(**kwargs)

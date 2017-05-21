@@ -104,13 +104,13 @@ def scale(network, scale_factor=[1, 1, 1], preserve_vol=False,
     network["pore.coords"] = network["pore.coords"]*lin_scale
     # Cycle through all vertices of all pores updating vertex values
     for pore in network.pores():
-        for i, vert in network['pore.vert_index'][pore].items():
+        for i, vert in list(network['pore.vert_index'][pore].items()):
             vert_scale = _linear_scale_factor(vert, minmax,
                                               scale_factor, linear_scaling)
             network["pore.vert_index"][pore][i] = vert*vert_scale
     # Cycle through all vertices of all throats updating vertex values
     for throat in network.throats():
-        for i, vert in network['throat.vert_index'][throat].items():
+        for i, vert in list(network['throat.vert_index'][throat].items()):
 
             vert_scale = _linear_scale_factor(vert, minmax,
                                               scale_factor, linear_scaling)
@@ -278,9 +278,9 @@ def pore2centroid(network):
     for geom_name in network.geometries():
         geometry = network.geometries(geom_name)[0]
         if 'pore.centroid' in geometry.props():
-            net_pores, geom_pores = geometry.map_pores(network,
+            net_pores, geom_pores = list(geometry.map_pores(network,
                                                        geometry.pores(),
-                                                       True).values()
+                                                       True).values())
             for i in range(len(geom_pores)):
                 network['pore.coords'][net_pores[i]] = \
                     geometry['pore.centroid'][geom_pores[i]]

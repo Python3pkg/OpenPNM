@@ -176,8 +176,8 @@ class DrainageTest:
         self.alg.setup(invading_phase=self.water, defending_phase=self.air)
         Ps = sp.random.randint(0, self.net.Np, 10)
         self.alg.set_boundary_conditions(pores=Ps, bc_type='inlets')
-        self.alg.run(inv_pressures=range(0, 20000, 1000))
-        assert sp.all(self.alg._inv_points == range(0, 20000, 1000))
+        self.alg.run(inv_pressures=list(range(0, 20000, 1000)))
+        assert sp.all(self.alg._inv_points == list(range(0, 20000, 1000)))
 
     def test_run_no_inlets(self):
         self.alg.setup(invading_phase=self.water, defending_phase=self.air)
@@ -211,8 +211,8 @@ class DrainageTest:
                                          bc_type='outlets')
         self.alg.run()
         data = self.alg.get_drainage_data()
-        assert 'capillary_pressure' in data.keys()
-        assert 'invading_phase_saturation' in data.keys()
+        assert 'capillary_pressure' in list(data.keys())
+        assert 'invading_phase_saturation' in list(data.keys())
 
     def test_run_w_residual_pores_and_throats(self):
         self.alg.setup(invading_phase=self.water, defending_phase=self.air)
@@ -222,5 +222,5 @@ class DrainageTest:
                                          bc_type='residual')
         self.alg.run()
         data = self.alg.get_drainage_data()
-        assert 'capillary_pressure' in data.keys()
-        assert 'invading_phase_saturation' in data.keys()
+        assert 'capillary_pressure' in list(data.keys())
+        assert 'invading_phase_saturation' in list(data.keys())

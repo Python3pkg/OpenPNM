@@ -63,7 +63,7 @@ class GenericPhase(Core):
 
     def __setitem__(self, prop, value):
         for phys in self._physics:
-            if (prop in phys.keys()) and ('all' not in prop.split('.')):
+            if (prop in list(phys.keys())) and ('all' not in prop.split('.')):
                     logger.error(prop + ' is already defined in at least one \
                                  associated Physics object')
                     return
@@ -73,7 +73,7 @@ class GenericPhase(Core):
         if key.split('.')[-1] == self.name:
             element = key.split('.')[0]
             return self[element+'.all']
-        if key not in self.keys():
+        if key not in list(self.keys()):
             logger.debug(key+' not on Phase, constructing data from Physics')
             return self._interleave_data(key, sources=self._physics)
         else:

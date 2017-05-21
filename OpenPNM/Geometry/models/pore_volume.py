@@ -434,7 +434,7 @@ def in_hull_volume(network, geometry, fibre_rad, vox_len=1e-6, **kwargs):
     geometry._hull_image = hull_image
     for pore in nbps:
         logger.info("Processing Pore: "+str(pore+1)+" of "+str(len(nbps)))
-        verts = np.asarray([i for i in network["pore.vert_index"][pore].values()])
+        verts = np.asarray([i for i in list(network["pore.vert_index"][pore].values())])
         verts = np.asarray(misc.unique_list(np.around(verts, 6)))
         verts /= vox_len
         pore_vox[pore], fibre_vox[pore] = inhull(geometry, verts, pore)

@@ -240,7 +240,7 @@ def test_Darcy_alg():
     Darcy1.run()
     Darcy1.return_results()
     print('pore pressure for Darcy1 algorithm:')
-    print(air['pore.pressure'])
+    print((air['pore.pressure']))
     Darcy2 = OpenPNM.Algorithms.StokesFlow(network=pn, phase=air)
     inlets = pn.pores('bottom_boundary')
     outlets = pn.pores('top_boundary')
@@ -254,13 +254,13 @@ def test_Darcy_alg():
                                    pores=outlets)
     Darcy2.run()
     print('pore pressure for Darcy2 algorithm:')
-    print(Darcy2['pore.pressure'])
+    print((Darcy2['pore.pressure']))
     Q = -Darcy2.rate(inlets)
     K = Q*air['pore.viscosity'][0]*divs[2]*Lc/(divs[0]*divs[1]*Lc**2*(P_in-P_out))
     Vp = sp.sum(pn['pore.volume']) + sp.sum(pn['throat.volume'])
     Vb = sp.prod(divs)*Lc**3
     e = Vp/Vb
-    print('Effective permeability: ', K, '- Porosity: ', e)
+    print(('Effective permeability: ', K, '- Porosity: ', e))
 
     a = round(sp.absolute(Darcy1.rate(outlets))[0], 16)
     pore_prop = 'pore.bcval_Neumann_group'

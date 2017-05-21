@@ -274,7 +274,7 @@ class GenericLinearTransport(GenericAlgorithm):
                 source_name = 'pore.' + \
                               (label.split('.')[-1]).replace('source_', '')
                 matching_physics = [phys for phys in self._phase._physics
-                                    if source_name in phys.models.keys()]
+                                    if source_name in list(phys.models.keys())]
                 for phys in matching_physics:
                     x = phys.models[source_name]['x']
                     if x != '' and type(x) == str:
@@ -459,7 +459,7 @@ class GenericLinearTransport(GenericAlgorithm):
 
                     # Setting the source term for all the modes except 'remove'
                     matching_physics = [phys for phys in self._phase._physics
-                                        if source_name in phys.models.keys()]
+                                        if source_name in list(phys.models.keys())]
                     for phys in matching_physics:
                         x = phys.models[source_name]['x']
                         return_rate = phys.models[source_name]['return_rate']
@@ -570,7 +570,7 @@ class GenericLinearTransport(GenericAlgorithm):
                                 ' requested iterative solver!')
             params = kwargs.copy()
             solver_params = ['x0', 'tol', 'maxiter', 'xtype', 'M', 'callback']
-            [params.pop(item, None) for item in kwargs.keys()
+            [params.pop(item, None) for item in list(kwargs.keys())
              if item not in solver_params]
             tol = kwargs.get('tol')
             if tol is None:

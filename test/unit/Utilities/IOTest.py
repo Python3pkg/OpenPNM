@@ -46,7 +46,7 @@ class IOTest:
         assert net.Nt == 2654
         assert sp.shape(net['pore.coords']) == (1246, 3)
         assert sp.shape(net['throat.conns']) == (2654, 2)
-        assert 'pore.radius' in net.keys()
+        assert 'pore.radius' in list(net.keys())
 
         path = os.path.join(FIXTURE_DIR, 'ICL-Sandstone(Berea)')
         net = io.Statoil.load(path=path, prefix='Berea')
@@ -54,7 +54,7 @@ class IOTest:
         assert net.Nt == 12098
         assert sp.shape(net['pore.coords']) == (6298, 3)
         assert sp.shape(net['throat.conns']) == (12098, 2)
-        assert 'pore.radius' in net.keys()
+        assert 'pore.radius' in list(net.keys())
         assert sp.all(net.find_neighbor_pores(pores=1000) == [221, 1214])
 
     def test_save_load_vtk_no_phases(self):
@@ -66,7 +66,7 @@ class IOTest:
         assert net.Nt == 54
         assert sp.shape(net['pore.coords']) == (27, 3)
         assert sp.shape(net['throat.conns']) == (54, 2)
-        assert 'pore.'+self.net.name+'_diameter' in net.keys()
+        assert 'pore.'+self.net.name+'_diameter' in list(net.keys())
 
     def test_save_and_load_vtk_w_phases(self):
         fname = os.path.join(TEMP_DIR, 'test_save_vtk_2')
@@ -80,8 +80,8 @@ class IOTest:
         assert net.Nt == 54
         assert sp.shape(net['pore.coords']) == (27, 3)
         assert sp.shape(net['throat.conns']) == (54, 2)
-        assert [True for item in net.keys() if 'temperature' in item]
-        assert [True for item in net.keys() if 'diffusive_conductance' in item]
+        assert [True for item in list(net.keys()) if 'temperature' in item]
+        assert [True for item in list(net.keys()) if 'diffusive_conductance' in item]
 
     def test_save_load_vtk_not_legacy_w_phases(self):
         fname = os.path.join(TEMP_DIR, 'test_save_vtk_1')
@@ -95,9 +95,9 @@ class IOTest:
         assert net.Nt == 54
         assert sp.shape(net['pore.coords']) == (27, 3)
         assert sp.shape(net['throat.conns']) == (54, 2)
-        assert 'pore.diameter' in net.keys()
-        assert 'pore.diameter'+'|'+self.net.name not in net.keys()
-        assert [item for item in net.keys() if '|'+self.phase.name in item]
+        assert 'pore.diameter' in list(net.keys())
+        assert 'pore.diameter'+'|'+self.net.name not in list(net.keys())
+        assert [item for item in list(net.keys()) if '|'+self.phase.name in item]
 
     def test_save_and_load_csv_no_phases(self):
         fname = os.path.join(TEMP_DIR, 'test_save_csv_1')
@@ -118,8 +118,8 @@ class IOTest:
         assert net.Nt == 54
         assert sp.shape(net['pore.coords']) == (27, 3)
         assert sp.shape(net['throat.conns']) == (54, 2)
-        assert [True for item in net.keys() if 'temperature' in item]
-        assert [True for item in net.keys() if 'diffusive_conductance' in item]
+        assert [True for item in list(net.keys()) if 'temperature' in item]
+        assert [True for item in list(net.keys()) if 'diffusive_conductance' in item]
 
     def test_save_and_load_mat_no_phases(self):
         fname = os.path.join(TEMP_DIR, 'test_save_mat_1')
@@ -140,8 +140,8 @@ class IOTest:
         assert net.Nt == 54
         assert sp.shape(net['pore.coords']) == (27, 3)
         assert sp.shape(net['throat.conns']) == (54, 2)
-        assert [True for item in net.keys() if 'temperature' in item]
-        assert [True for item in net.keys() if 'diffusive_conductance' in item]
+        assert [True for item in list(net.keys()) if 'temperature' in item]
+        assert [True for item in list(net.keys()) if 'diffusive_conductance' in item]
 
     def test_load_networkx(self):
         fname = os.path.join(FIXTURE_DIR, 'test_load_yaml.yaml')

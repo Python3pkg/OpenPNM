@@ -191,8 +191,8 @@ htmlhelp_basename = 'OpenPNMhelp'
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [('index', 'OpenPNM', u'OpenPNM Documentation',
-             [u'McGill, UofT, AFCC'], 1)]
+man_pages = [('index', 'OpenPNM', 'OpenPNM Documentation',
+             ['McGill, UofT, AFCC'], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -203,8 +203,8 @@ man_pages = [('index', 'OpenPNM', u'OpenPNM Documentation',
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [('index', 'OpenPNM', u'OpenPNM Documentation',
-                     u'EDSL, AFCC', 'OpenPNM', 'Miscellaneous')]
+texinfo_documents = [('index', 'OpenPNM', 'OpenPNM Documentation',
+                     'EDSL, AFCC', 'OpenPNM', 'Miscellaneous')]
 
 # Documents to append as an appendix to all manuals.
 # texinfo_appendices = []

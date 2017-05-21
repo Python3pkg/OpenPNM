@@ -33,9 +33,9 @@ class UtilitiesMiscTest:
 
     def test_amalgamate_data(self):
         dict_ = misc.amalgamate_data(objs=[self.net, self.air])
-        assert 'pore.'+self.air.name+'_molecular_weight' in dict_.keys()
+        assert 'pore.'+self.air.name+'_molecular_weight' in list(dict_.keys())
         dict_ = misc.amalgamate_data(objs=[self.net, self.air], delimiter='|')
-        assert 'pore.'+self.air.name+'|molecular_weight' in dict_.keys()
+        assert 'pore.'+self.air.name+'|molecular_weight' in list(dict_.keys())
 
     def test_tic_toc(self):
         t = misc.tic()

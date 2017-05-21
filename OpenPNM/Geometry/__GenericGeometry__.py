@@ -130,7 +130,7 @@ class GenericGeometry(Core):
         if mode == 'add':
             # Check if any constant values exist on the object
             for item in self.props():
-                if (item not in self.models.keys()) or \
+                if (item not in list(self.models.keys())) or \
                    (self.models[item]['regen_mode'] == 'constant'):
                     raise Exception('Constant properties found on object, ' +
                                     'cannot increase size')

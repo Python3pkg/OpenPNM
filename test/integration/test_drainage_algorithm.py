@@ -76,8 +76,8 @@ assert sp.amin(data['invading_phase_saturation']) == 0.0
 assert sp.amax(data['invading_phase_saturation']) < 1.0
 
 drainage.return_results(Pc=5000)
-assert 'pore.occupancy' in water.keys()
-assert 'pore.partial_occupancy' in water.keys()
+assert 'pore.occupancy' in list(water.keys())
+assert 'pore.partial_occupancy' in list(water.keys())
 
 
 # def test_late_throat_filling():
@@ -98,8 +98,8 @@ assert sp.amin(data['invading_phase_saturation']) == 0.0
 assert sp.amax(data['invading_phase_saturation']) < 1.0
 
 drainage.return_results(Pc=5000)
-assert 'throat.occupancy' in water.keys()
-assert 'throat.partial_occupancy' in water.keys()
+assert 'throat.occupancy' in list(water.keys())
+assert 'throat.partial_occupancy' in list(water.keys())
 
 
 # def test_late_pore_and_throat_filling():
@@ -125,10 +125,10 @@ assert sp.amin(data['invading_phase_saturation']) == 0.0
 assert sp.amax(data['invading_phase_saturation']) < 1.0
 
 drainage.return_results(Pc=5000)
-assert 'pore.occupancy' in water.keys()
-assert 'throat.occupancy' in water.keys()
-assert 'pore.partial_occupancy' in water.keys()
-assert 'throat.partial_occupancy' in water.keys()
+assert 'pore.occupancy' in list(water.keys())
+assert 'throat.occupancy' in list(water.keys())
+assert 'pore.partial_occupancy' in list(water.keys())
+assert 'throat.partial_occupancy' in list(water.keys())
 
 
 # def test_ploting():

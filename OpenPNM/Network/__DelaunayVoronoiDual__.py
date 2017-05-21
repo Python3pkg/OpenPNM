@@ -122,7 +122,7 @@ class DelaunayVoronoiDual(GenericNetwork):
 
         # Create adjacency matrix in lil format for quick matrix construction
         am = sp.sparse.lil_matrix((Nall, Nall))
-        for ridge in vor.ridge_dict.keys():
+        for ridge in list(vor.ridge_dict.keys()):
             # Make Delaunay-to-Delauny connections
             [am.rows[i].extend([ridge[0], ridge[1]]) for i in ridge]
             row = vor.ridge_dict[ridge]
@@ -310,7 +310,7 @@ class DelaunayVoronoiDual(GenericNetwork):
             throats = self.throats('delaunay')
         else:
             throats = self.filter_by_label(throats, labels='delaunay')
-        if 'throat.facet_coords' not in self.keys():
+        if 'throat.facet_coords' not in list(self.keys()):
             self['throat.facet_coords'] = sp.ndarray((self.Nt, ), dtype=object)
         tvals = self['throat.interconnect'].astype(int)
         am = self.create_adjacency_matrix(data=tvals, sprsfmt='lil')
@@ -341,7 +341,7 @@ class DelaunayVoronoiDual(GenericNetwork):
             pores = self.pores('delaunay')
         else:
             pores = self.filter_by_label(pores, labels='delaunay')
-        if 'pore.hull_coords' not in self.keys():
+        if 'pore.hull_coords' not in list(self.keys()):
             self['pore.hull_coords'] = sp.ndarray((self.Np, ), dtype=object)
         tvals = self['throat.interconnect'].astype(int)
         am = self.create_adjacency_matrix(data=tvals, sprsfmt='lil')

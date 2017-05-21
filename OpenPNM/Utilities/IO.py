@@ -56,7 +56,7 @@ class GenericIO():
     def _update_network(cls, network, net, return_geometry=False):
         # Infer Np and Nt from length of given prop arrays in file
         for element in ['pore', 'throat']:
-            N = [_sp.shape(net[i])[0] for i in net.keys() if i.startswith(element)]
+            N = [_sp.shape(net[i])[0] for i in list(net.keys()) if i.startswith(element)]
             if N:
                 N = _sp.array(N)
                 if _sp.all(N == N[0]):
@@ -72,7 +72,7 @@ class GenericIO():
                     raise Exception(element+' data in file have inconsistent' +
                                     ' lengths')
         # Add data on dummy net to actual network
-        for item in net.keys():
+        for item in list(net.keys()):
             # Try to infer array types and change if necessary
             # Chcek for booleans disguised and 1's and 0's
             num0s = _sp.sum(net[item] == 0)
@@ -581,14 +581,14 @@ class MAT(GenericIO):
         import scipy.io as _spio
         data = _spio.loadmat(filename)
         # Deal with pore coords and throat conns specially
-        if 'throat_conns' in data.keys():
+        if 'throat_conns' in list(data.keys()):
             net.update({'throat.conns': _sp.vstack(data['throat_conns'])})
             Nt = _sp.shape(net['throat.conns'])[0]
             net.update({'throat.all': _sp.ones((Nt,), dtype=bool)})
             del data['throat_conns']
         else:
             logger.warning('\'throat_conns\' not found')
-        if 'pore_coords' in data.keys():
+        if 'pore_coords' in list(data.keys()):
             net.update({'pore.coords': _sp.vstack(data['pore_coords'])})
             Np = _sp.shape(net['pore.coords'])[0]
             net.update({'pore.all': _sp.ones((Np,), dtype=bool)})
@@ -597,7 +597,7 @@ class MAT(GenericIO):
             logger.warning('\'pore_coords\' not found')
 
         # Now parse through all the other items
-        items = [i for i in data.keys() if '__' not in i]
+        items = [i for i in list(data.keys()) if '__' not in i]
         for item in items:
             element = item.split('_')[0]
             prop = item.split('_', maxsplit=1)[1]
@@ -797,7 +797,7 @@ class CSV(GenericIO):
                                              'FALSE'])
 
         # Now parse through all the other items
-        for item in a.keys():
+        for item in list(a.keys()):
             element = item.split('.')[0]
             prop = item.split('.', maxsplit=1)[1]
             data = _sp.array(a[item].dropna())
@@ -898,16 +898,16 @@ class NetworkX(GenericIO):
         # Parsing node data
         Np = len(a['node'])
         net.update({'pore.all': _sp.ones((Np,), dtype=bool)})
-        for n in a['node'].keys():
+        for n in list(a['node'].keys()):
             props = a['node'][n]
-            for item in props.keys():
+            for item in list(props.keys()):
                 val = a['node'][n][item]
                 dtype = type(val)
                 # Remove prepended pore. and pore_ if present
                 for b in ['pore.', 'pore_']:
                     item = item.replace(b, '')
                 # Create arrays for subsequent indexing, if not present already
-                if 'pore.'+item not in net.keys():
+                if 'pore.'+item not in list(net.keys()):
                     if dtype is list:
                         dtype = type(val[0])
                         cols = len(val)
@@ -920,8 +920,8 @@ class NetworkX(GenericIO):
         # Deal with conns explicitly
 
         conns = []
-        for n in a['edge'].keys():
-            neighbors = a['edge'][n].keys()
+        for n in list(a['edge'].keys()):
+            neighbors = list(a['edge'][n].keys())
             conns.extend([sorted([i, n]) for i in neighbors])
         # Remove duplicate pairs from conns and sort
         conns.sort()
@@ -942,7 +942,7 @@ class NetworkX(GenericIO):
                 for b in ['throat.', 'throat_']:
                     item = item.replace(b, '')
                 # Create arrays for subsequent indexing, if not present already
-                if 'throat.'+item not in net.keys():
+                if 'throat.'+item not in list(net.keys()):
                     if dtype is list:
                         dtype = type(val[0])
                         cols = len(val)
@@ -1040,8 +1040,7 @@ class iMorph(GenericIO):
             voxel_size = vox_size * 1.0E-6  # file stores value in microns
 
         if voxel_size < 0:
-            raise(Exception('Error - Voxel size must be specfied in ' +
-                            'the Nodes file or as a keyword argument.'))
+            raise Exception
 
         # parsing the graph file
         with open(graph_file, 'r') as file:

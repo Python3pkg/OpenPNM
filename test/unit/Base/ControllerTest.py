@@ -25,13 +25,13 @@ class WorkspaceTest:
         self.workspace.clear()
         assert self.workspace == {}
         self.workspace.load_workspace(filename=join(TEMP_DIR, 'test_workspace'))
-        assert self.net.name in self.workspace.keys()
+        assert self.net.name in list(self.workspace.keys())
 
     def test_load_overwrite_existing(self):
         temp = self.workspace.copy()
         self.workspace.save_workspace(filename=join(TEMP_DIR, 'test_workspace'))
         self.workspace.load_workspace(filename=join(TEMP_DIR, 'test_workspace'))
-        flag = [i for i in temp.keys() if i not in self.workspace.keys()]
+        flag = [i for i in list(temp.keys()) if i not in list(self.workspace.keys())]
 
     def test_save_no_name(self):
         self.workspace.save_workspace()
@@ -59,11 +59,11 @@ class WorkspaceTest:
     def test_save_and_load_simulation(self):
         a = OpenPNM.Network.Cubic(shape=[10, 10, 10])
         self.workspace.save_simulation(a, join(TEMP_DIR, 'test_simulation'))
-        assert a in self.workspace.values()
+        assert a in list(self.workspace.values())
         self.workspace.clear()
-        assert a not in self.workspace.values()
+        assert a not in list(self.workspace.values())
         self.workspace.load_simulation(join(TEMP_DIR, 'test_simulation'))
-        assert a.name in self.workspace.keys()
+        assert a.name in list(self.workspace.keys())
 
     def test_save_simulation_no_name(self):
         a = OpenPNM.Network.Cubic(shape=[10, 10, 10])
@@ -101,7 +101,7 @@ class WorkspaceTest:
         self.workspace.clear()
         self.workspace.load_simulation('blah')
         net2 = self.workspace[net.name]
-        assert 'pore.blah' in net2.keys()
+        assert 'pore.blah' in list(net2.keys())
 
     def test_ghost_object(self):
         a = self.workspace.ghost_object(self.net)
@@ -109,20 +109,20 @@ class WorkspaceTest:
         assert a is not self.net
         # ...but same __dict__ and keys
         assert a.__dict__ == self.net.__dict__
-        assert a.keys() == self.net.keys()
+        assert list(a.keys()) == list(self.net.keys())
         # Ensure an object with same name as a is in workspace dict
-        assert a.name in self.workspace.keys()
+        assert a.name in list(self.workspace.keys())
         # But that dictionary key is not a
         assert self.workspace[a.name] is not a
 
     def test_purge_object_single(self):
         a = OpenPNM.Phases.GenericPhase(network=self.net)
-        assert a.name in self.workspace.keys()
-        assert a in self.workspace.values()
+        assert a.name in list(self.workspace.keys())
+        assert a in list(self.workspace.values())
         assert a.workspace is self.workspace
         self.workspace.purge_object(a)
-        assert a.name not in self.workspace.keys()
-        assert a not in self.workspace.values()
+        assert a.name not in list(self.workspace.keys())
+        assert a not in list(self.workspace.values())
         assert a.workspace == {}
 
     def test_purge_object_complete(self):
@@ -130,14 +130,14 @@ class WorkspaceTest:
         geo = OpenPNM.Geometry.GenericGeometry(network=net)
         geo.set_locations(pores=net.Ps, throats=net.Ts)
         self.workspace.purge_object(geo, mode='complete')
-        assert geo.name not in self.workspace.keys()
-        assert net.name not in self.workspace.keys()
+        assert geo.name not in list(self.workspace.keys())
+        assert net.name not in list(self.workspace.keys())
 
     def test_clone_simulation(self):
         a = self.workspace.clone_simulation(self.net)
         assert a.name != self.net.name
-        assert a in self.workspace.values()
-        assert a.name in self.workspace.keys()
+        assert a in list(self.workspace.values())
+        assert a.name in list(self.workspace.keys())
 
     def test_geometries(self):
         a = self.workspace.geometries()

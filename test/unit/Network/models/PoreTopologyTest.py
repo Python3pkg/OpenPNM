@@ -11,7 +11,7 @@ class PoreTopologyTest:
         self.net.models.add(propname='pore.subscripts',
                             shape=[3, 3, 3],
                             model=f)
-        assert 'pore.subscripts' in self.net.keys()
+        assert 'pore.subscripts' in list(self.net.keys())
         assert sp.shape(self.net['pore.subscripts']) == (27, 3)
 
     def test_get_coords(self):
@@ -19,6 +19,6 @@ class PoreTopologyTest:
         self.net.models.add(propname='pore.coords2',
                             model=f,
                             new_spacing=2)
-        assert 'pore.coords2' in self.net.keys()
+        assert 'pore.coords2' in list(self.net.keys())
         a = sp.amax(self.net['pore.coords'])
         assert sp.amax(self.net['pore.coords2']) == 2*a

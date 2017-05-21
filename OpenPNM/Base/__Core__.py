@@ -80,7 +80,7 @@ class Core(dict):
         # Skip checks for protected props, and prevent changes if defined
         protected_keys = ['all']
         if key.split('.')[1] in protected_keys:
-            if key in self.keys():
+            if key in list(self.keys()):
                 if sp.shape(self[key]) == (0,):
                     logger.debug(key+' is being defined.')
                     super(Core, self).__setitem__(key, value)
@@ -108,19 +108,19 @@ class Core(dict):
                 # raise Exception('Cannot write vector of the wrong length')
 
     def _get_mgr(self):
-        if self in mgr.values():
+        if self in list(mgr.values()):
             return mgr
         else:
             return {}
 
     def _set_mgr(self, mgr):
-        if self not in mgr.values():
+        if self not in list(mgr.values()):
             mgr.update({self.name: self})
 
     workspace = property(fget=_get_mgr, fset=_set_mgr)
 
     def _set_name(self, name):
-        if name in mgr.keys():
+        if name in list(mgr.keys()):
             raise Exception('An object named '+name+' already exists')
         elif name is None:
             name = ''.join(random.choice(string.ascii_uppercase +
@@ -133,9 +133,9 @@ class Core(dict):
             if mgr._validate_name(name):
                 # Rename any label arrays
                 for item in self._simulation():
-                    if 'pore.'+self.name in item.keys():
+                    if 'pore.'+self.name in list(item.keys()):
                         item['pore.'+name] = item.pop('pore.'+self.name)
-                    if 'throat.'+self.name in item.keys():
+                    if 'throat.'+self.name in list(item.keys()):
                         item['throat.'+name] = item.pop('throat.'+self.name)
             else:
                 raise Exception('The provided name is already in use')
@@ -224,7 +224,7 @@ class Core(dict):
             return all_dicts.get(obj_name)
         if obj_type != '':
             objs = []
-            for item in all_dicts.values():
+            for item in list(all_dicts.values()):
                 if item._isa(obj_type):
                     objs.append(item.name)
             return objs
@@ -321,7 +321,7 @@ class Core(dict):
         mode = self._parse_mode(mode=mode, allowed=allowed)
         element = self._parse_element(element=element)
         # Prepare lists of each type of array
-        props = [item for item in self.keys() if self[item].dtype != bool]
+        props = [item for item in list(self.keys()) if self[item].dtype != bool]
         models = list(self.models.keys())
         constants = [item for item in props if item not in models]
         # Execute desired array lookup
@@ -354,8 +354,8 @@ class Core(dict):
         mode = self._parse_mode(mode=mode, allowed=allowed, single=True)
         element = self._parse_element(element=element)
         # Collect list of all pore OR throat labels
-        a = set([k for k in self.keys() if k.split('.')[0] == element[0]])
-        b = set([k for k in self.keys() if self[k].dtype == bool])
+        a = set([k for k in list(self.keys()) if k.split('.')[0] == element[0]])
+        b = set([k for k in list(self.keys()) if self[k].dtype == bool])
         labels = list(a.intersection(b))
         labels.sort()
         labels = sp.array(labels)  # Convert to ND-array for following checks
@@ -442,9 +442,9 @@ class Core(dict):
         if (sp.size(pores) == 0) and (sp.size(throats) == 0):
             element = self._parse_element(element=element)
             for item in element:
-                a = set([key for key in self.keys()
+                a = set([key for key in list(self.keys())
                          if key.split('.')[0] == item])
-                b = set([key for key in self.keys()
+                b = set([key for key in list(self.keys())
                          if self[key].dtype == bool])
                 labels.extend(list(a.intersection(b)))
         elif (sp.size(pores) > 0) and (sp.size(throats) > 0):
@@ -541,7 +541,7 @@ class Core(dict):
         mode = self._parse_mode(mode=mode, allowed=allowed, single=True)
         element = self._parse_element(element, single=True)
         labels = self._parse_labels(labels=labels, element=element)
-        if element+'.all' not in self.keys():
+        if element+'.all' not in list(self.keys()):
             raise Exception('Cannot proceed without {}.all'.format(element))
 
         # Begin computing label array
@@ -1403,7 +1403,7 @@ class Core(dict):
                 if label.endswith('*'):
                     temp = [L for L in Ls if L.startswith(label.strip('*'))]
                 temp = [element+'.'+L for L in temp]
-            elif element+'.'+label in self.keys():
+            elif element+'.'+label in list(self.keys()):
                 temp = [element+'.'+label]
             else:
                 # TODO: The following Error should/could be raised but it
